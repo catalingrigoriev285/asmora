@@ -9,6 +9,8 @@
     ; messages
     msg_welcome db "Welcome to Asmora", '$'
     msg_welcome_created_by db "Created by ", '$'
+    msg_invalid_command db "Invalid command! For more commands type 'help'.", '$'
+    msg_enter_await db "Press enter to continue ...", '$'
     
     ; session
     session_input db 12 DUP('$')
@@ -47,7 +49,12 @@ MAIN_LOOP:
 MAIN_COMPARE_LEXICAL:
     compare_string session_input, cmd_help, COMMAND_HELP, CHECK_LEXICAL_CLEAR_SCREEN
 CHECK_LEXICAL_CLEAR_SCREEN:
-    compare_string session_input, cmd_clear_screen, COMMAND_CLEAR_SCREEN, MAIN_LOOP
+    compare_string session_input, cmd_clear_screen, COMMAND_CLEAR_SCREEN, INVALID_COMMAND
+    
+INVALID_COMMAND:
+    print_string msg_invalid_command
+    call print_new_line
+    jmp MAIN_LOOP
     
 ; commands
 include commands.asm
