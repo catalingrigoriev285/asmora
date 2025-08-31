@@ -30,4 +30,31 @@ read_string_loop:
     inc SI
     jmp read_string_loop
 read_string_end:
+    mov output_string[SI], '$'
+endm
+
+; compare
+compare_string macro string1, string2, label_equal, label_notequal
+    LOCAL compare_string_loop
+    push SI
+    push DI
+    
+    lea SI, string1
+    lea DI, string2
+    
+compare_string_loop:
+    lodsb
+    mov BL, [DI]
+    inc DI
+    
+    cmp AL, BL
+    jne label_notequal
+    
+    cmp AL, '$'
+    je label_equal
+    
+    jmp compare_string_loop
+    
+    pop DI
+    pop SI
 endm
