@@ -15,6 +15,7 @@
     
     ; commands
     cmd_help db "help", '$'
+    cmd_clear_screen db "clear", '$'
 .code
 
 include macros.asm
@@ -44,12 +45,12 @@ MAIN_LOOP:
     read_string session_input
     
 MAIN_COMPARE_LEXICAL:
-    compare_string session_input, cmd_help, COMMAND_HELP, MAIN_LOOP
+    compare_string session_input, cmd_help, COMMAND_HELP, CHECK_LEXICAL_CLEAR_SCREEN
+CHECK_LEXICAL_CLEAR_SCREEN:
+    compare_string session_input, cmd_clear_screen, COMMAND_CLEAR_SCREEN, MAIN_LOOP
     
-COMMAND_HELP:
-    print_string msg_welcome
-    call print_new_line
-    jmp MAIN_LOOP
+; commands
+include commands.asm
     
 MAIN_END:
     mov AH, 4Ch
