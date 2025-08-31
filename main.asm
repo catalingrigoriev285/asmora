@@ -9,9 +9,12 @@
     ; messages
     msg_welcome db "Welcome to Asmora", '$'
     msg_welcome_created_by db "Created by ", '$'
+    
     msg_commands_available db "Available commands : ", '$'
     msg_commands_clear db "- clear ( Clears the asmora screen )", '$'
+    msg_commands_echo db "- echo ( Print text to screen )", '$'
     msg_commands_exit db "- exit ( Close the asmora session )", '$'
+    
     msg_invalid_command db "Invalid command! For more commands type 'help'.", '$'
     msg_enter_await db "Press enter to continue ...", '$'
     
@@ -21,6 +24,7 @@
     ; commands
     cmd_help db "help", '$'
     cmd_clear_screen db "clear", '$'
+    cmd_echo db "echo", '$'
     cmd_exit db "exit", '$'
 .code
 
@@ -53,7 +57,9 @@ MAIN_LOOP:
 MAIN_COMPARE_LEXICAL:
     compare_string session_input, cmd_help, COMMAND_HELP, CHECK_LEXICAL_CLEAR_SCREEN
 CHECK_LEXICAL_CLEAR_SCREEN:
-    compare_string session_input, cmd_clear_screen, COMMAND_CLEAR_SCREEN, CHECK_LEXICAL_EXIT
+    compare_string session_input, cmd_clear_screen, COMMAND_CLEAR_SCREEN, CHECK_LEXICAL_ECHO
+CHECK_LEXICAL_ECHO:
+    compare_string session_input, cmd_echo, COMMAND_ECHO, CHECK_LEXICAL_EXIT
 CHECK_LEXICAL_EXIT:
     compare_string session_input, cmd_exit, COMMAND_EXIT, INVALID_COMMAND
     
